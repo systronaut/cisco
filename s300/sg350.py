@@ -3,14 +3,20 @@
 from netmiko import Netmiko, ConnectHandler, NetmikoTimeoutException
 from getpass import getpass
 from discord import Webhook, RequestsWebhookAdapter
+import pymsteams
 import fastapi
 import requests
 import emoji
 import pprint
 
-webhook_url = "https://discord.com/api/webhooks/628541226047504384/PUG68jxKCo56kJ3O2LIIbskz1hWI2t4-6KvKgmDyeaqVeRfQlERmA8VQfGhmFAVWFeUt"
+discord_webhook_url = "https://discord.com/api/webhooks/628541226047504384/PUG68jxKCo56kJ3O2LIIbskz1hWI2t4-6KvKgmDyeaqVeRfQlERmA8VQfGhmFAVWFeUt"
+teams_webhook_url = ""
 
-webhook = Webhook.from_url(webhook_url, adapter=RequestsWebhookAdapter())
+discord_webhook = Webhook.from_url(discord_webhook_url, adapter=RequestsWebhookAdapter())
+
+# todo:
+# https://docs.microsoft.com/en-us/microsoftteams/platform/webhooks-and-connectors/how-to/add-incoming-webhook
+teams_webhook = pymsteams.connectorcard("")
 
 cisco_switch = {
     "host": "192.168.1.101",
@@ -29,7 +35,9 @@ print()
 def add_vlans():
     connection = Netmiko(**cisco_switch)
     add_vlans = connection.send_config_set(['vlan 10,20,30,40,50,60'])
-    webhook.send(add_vlans)
+    discord_webhook.send(add_vlans)
+    teams_webhook.text(add_vlans)
+    teams_webhook.send()
 
 def show_vlan():
     connection = Netmiko(**cisco_switch)
