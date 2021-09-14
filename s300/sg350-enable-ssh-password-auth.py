@@ -12,7 +12,7 @@ def ssh_begin():
     for devices in ip_list:
         print(devices)
         device = ConnectHandler(
-            ip=devices, username="admin", password="aBH8PUPtGr8AEjxYTMarqg59CTQB", device_type="cisco_s300"
+            ip=devices, username="", password="", device_type="cisco_s300"
         )
         print(device.find_prompt())
         print(device.send_command(send_write_memory))
