@@ -1,0 +1,7 @@
+- netmiko
+- getpass
+- discord
+- fastapi
+- requests
+- emoji
+- pprint
